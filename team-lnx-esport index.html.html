@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TEAM LNX ESPORT</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --red:#FF1E1E;
+  --red-dark:#C0000A;
+  --red-glow:rgba(255,30,30,0.35);
+  --black:#050505;
+  --dark:#0A0A0A;
+  --panel:#111111;
+  --panel2:#161616;
+  --border:rgba(255,30,30,0.18);
+  --border-bright:rgba(255,30,30,0.55);
+  --text:#E8E8E8;
+  --text-dim:#888;
+  --mono:'Share Tech Mono',monospace;
+  --heading:'Bebas Neue',sans-serif;
+  --body:'Rajdhani',sans-serif;
+}
+
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--body);
+  background:var(--black);
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+  cursor:crosshair;
+}
+
+/* scanline overlay */
+body::before{
+  content:'';
+  position:fixed;inset:0;z-index:9999;
+  pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px);
+}
+
+/* ─── CURSOR ─── */
+*, a, button { cursor: crosshair; }
+
+/* ─── NAV ─── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 2.5rem;height:60px;
+  background:rgba(5,5,5,0.92);
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(10px);
+}
+.nav-brand{
+  display:flex;align-items:center;gap:12px;
+}
+.nav-logo-box{
+  width:36px;height:36px;
+  background:var(--red);
+  clip-path:polygon(8% 0%,92% 0%,100% 50%,92% 100%,8% 100%,0% 50%);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--heading);font-size:13px;color:#fff;letter-spacing:1px;
+}
+.nav-name{
+  font-family:var(--heading);font-size:24px;letter-spacing:3px;
+  color:#fff;line-height:1;
+}
+.nav-name span{color:var(--red);}
+.nav-tag{
+  font-family:var(--mono);font-size:9px;color:var(--text-dim);letter-spacing:2px;
+  border:1px solid var(--border);padding:2px 8px;
+}
+.nav-links{display:flex;gap:2rem;align-items:center;}
+.nav-links a{
+  font-family:var(--body);font-size:13px;font-weight:600;
+  letter-spacing:2px;text-transform:uppercase;
+  color:var(--text-dim);text-decoration:none;
+  transition:color 0.2s;position:relative;
+}
+.nav-links a::after{
+  content:'';position:absolute;bottom:-4px;left:0;right:0;height:1px;
+  background:var(--red);transform:scaleX(0);transition:transform 0.2s;
+}
+.nav-links a:hover{color:var(--red);}
+.nav-links a:hover::after{transform:scaleX(1);}
+.nav-upload-btn{
+  background:var(--red);color:#fff;border:none;
+  padding:8px 20px;font-family:var(--heading);font-size:16px;letter-spacing:2px;
+  clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);
+  transition:all 0.2s;
+}
+.nav-upload-btn:hover{background:#ff3333;box-shadow:0 0 20px var(--red-glow);}
+
+/* ─── HERO ─── */
+#hero{
+  min-height:100vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:80px 2rem 4rem;
+  position:relative;overflow:hidden;
+  text-align:center;
+}
+.hero-bg{
+  position:absolute;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 50%, rgba(255,30,30,0.07) 0%, transparent 70%),
+    radial-gradient(ellipse 30% 30% at 80% 20%, rgba(255,30,30,0.05) 0%, transparent 60%),
+    var(--black);
+}
+/* grid lines */
+.hero-bg::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,30,30,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,30,30,0.04) 1px, transparent 1px);
+  background-size:60px 60px;
+}
+/* corner decorations */
+.hero-bg::after{
+  content:'';position:absolute;
+  top:80px;left:40px;right:40px;bottom:40px;
+  border:1px solid rgba(255,30,30,0.07);pointer-events:none;
+}
+.hero-content{position:relative;z-index:1;}
+.hero-eyebrow{
+  font-family:var(--mono);font-size:11px;letter-spacing:4px;
+  color:var(--red);text-transform:uppercase;margin-bottom:1.5rem;
+  display:flex;align-items:center;justify-content:center;gap:12px;
+}
+.hero-eyebrow::before,.hero-eyebrow::after{
+  content:'';width:40px;height:1px;background:var(--red);opacity:0.6;
+}
+.hero-title{
+  font-family:var(--heading);
+  font-size:clamp(5rem,15vw,13rem);
+  line-height:0.9;letter-spacing:4px;
+  color:#fff;
+  text-shadow:0 0 80px rgba(255,30,30,0.15);
+  animation:flicker 8s infinite;
+}
+@keyframes flicker{
+  0%,96%,98%,100%{opacity:1}
+  97%{opacity:0.85}
+  99%{opacity:0.9}
+}
+.hero-title .accent{
+  color:var(--red);
+  text-shadow:0 0 40px rgba(255,30,30,0.8), 0 0 80px rgba(255,30,30,0.4);
+  display:block;
+}
+.hero-sub{
+  font-family:var(--body);font-size:clamp(0.9rem,2vw,1.25rem);
+  font-weight:500;letter-spacing:4px;text-transform:uppercase;
+  color:var(--text-dim);margin:1.5rem 0 2.5rem;
+}
+.hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
+.btn-red{
+  background:var(--red);color:#fff;border:none;
+  padding:14px 40px;
+  font-family:var(--heading);font-size:20px;letter-spacing:3px;
+  clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);
+  transition:all 0.25s;
+}
+.btn-red:hover{background:#ff3333;box-shadow:0 0 30px var(--red-glow);transform:translateY(-2px);}
+.btn-outline{
+  background:transparent;color:var(--red);
+  border:1px solid var(--red);
+  padding:14px 40px;
+  font-family:var(--heading);font-size:20px;letter-spacing:3px;
+  clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);
+  transition:all 0.25s;
+}
+.btn-outline:hover{background:rgba(255,30,30,0.1);box-shadow:0 0 20px rgba(255,30,30,0.2);}
+.hero-stats{
+  display:flex;gap:0;margin-top:4rem;
+  border:1px solid var(--border);
+}
+.h-stat{
+  padding:1.25rem 2.5rem;text-align:center;
+  border-right:1px solid var(--border);
+  position:relative;overflow:hidden;
+}
+.h-stat:last-child{border-right:none;}
+.h-stat::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--red),transparent);
+  transform:scaleX(0);transition:transform 0.4s;
+}
+.h-stat:hover::before{transform:scaleX(1);}
+.h-num{
+  font-family:var(--heading);font-size:2.5rem;color:var(--red);line-height:1;
+}
+.h-label{font-family:var(--mono);font-size:10px;color:var(--text-dim);letter-spacing:2px;margin-top:4px;}
+
+/* ─── SECTION BASE ─── */
+section{padding:5rem 3rem;}
+.sec-label{
+  font-family:var(--mono);font-size:10px;letter-spacing:3px;
+  color:var(--red);text-transform:uppercase;margin-bottom:8px;
+}
+.sec-title{
+  font-family:var(--heading);font-size:clamp(2.5rem,6vw,5rem);
+  letter-spacing:3px;color:#fff;line-height:1;margin-bottom:1rem;
+}
+.sec-line{
+  width:60px;height:2px;background:var(--red);margin-bottom:2rem;
+  box-shadow:0 0 10px var(--red-glow);
+}
+
+/* ─── GALLERY ─── */
+#galeri{background:var(--dark);}
+.gal-header{
+  display:flex;align-items:flex-end;justify-content:space-between;
+  margin-bottom:2rem;flex-wrap:wrap;gap:1.5rem;
+}
+.filter-row{display:flex;gap:8px;flex-wrap:wrap;}
+.ftag{
+  background:transparent;
+  border:1px solid var(--border);
+  color:var(--text-dim);
+  padding:6px 16px;
+  font-family:var(--heading);font-size:16px;letter-spacing:2px;
+  clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%);
+  transition:all 0.2s;
+}
+.ftag:hover,.ftag.active{
+  border-color:var(--red);color:var(--red);
+  background:rgba(255,30,30,0.08);
+  box-shadow:0 0 12px rgba(255,30,30,0.15);
+}
+
+.photo-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:12px;
+}
+.photo-card{
+  position:relative;overflow:hidden;
+  background:var(--panel);
+  border:1px solid var(--border);
+  aspect-ratio:16/10;
+  transition:all 0.3s;
+}
+.photo-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--red-dark),var(--red),var(--red-dark));
+  transform:scaleX(0);transition:transform 0.3s;z-index:2;
+}
+.photo-card:hover{border-color:var(--border-bright);transform:scale(1.01);box-shadow:0 0 30px rgba(255,30,30,0.15);}
+.photo-card:hover::before{transform:scaleX(1);}
+.photo-card img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform 0.5s;
+  display:block;
+}
+.photo-card:hover img{transform:scale(1.06);}
+.photo-overlay{
+  position:absolute;inset:0;z-index:1;
+  background:linear-gradient(to top,rgba(5,5,5,0.85) 0%,transparent 55%);
+  opacity:0;transition:opacity 0.3s;
+  display:flex;flex-direction:column;justify-content:flex-end;padding:14px;
+}
+.photo-card:hover .photo-overlay{opacity:1;}
+.photo-title{font-family:var(--heading);font-size:1.2rem;letter-spacing:2px;color:#fff;}
+.photo-cat{font-family:var(--mono);font-size:10px;color:var(--red);letter-spacing:2px;margin-top:3px;}
+.photo-del{
+  position:absolute;top:8px;right:8px;z-index:3;
+  width:28px;height:28px;background:rgba(5,5,5,0.8);border:1px solid var(--border);
+  color:var(--text-dim);font-size:14px;
+  display:none;align-items:center;justify-content:center;
+  transition:all 0.2s;
+}
+.photo-del:hover{border-color:var(--red);color:var(--red);}
+.photo-card:hover .photo-del{display:flex;}
+
+.no-photos{
+  grid-column:1/-1;text-align:center;padding:5rem 0;
+  border:1px dashed var(--border);
+}
+.no-photos p{font-family:var(--heading);font-size:2rem;letter-spacing:3px;color:var(--text-dim);}
+.no-photos small{font-family:var(--mono);font-size:11px;color:rgba(136,136,136,0.5);letter-spacing:2px;margin-top:8px;display:block;}
+
+/* ─── UPLOAD MODAL ─── */
+.overlay{
+  position:fixed;inset:0;z-index:600;
+  background:rgba(5,5,5,0.95);backdrop-filter:blur(6px);
+  display:flex;align-items:center;justify-content:center;
+  padding:1rem;
+  opacity:0;pointer-events:none;transition:opacity 0.3s;
+}
+.overlay.open{opacity:1;pointer-events:all;}
+.modal{
+  background:var(--panel);
+  border:1px solid var(--border-bright);
+  width:100%;max-width:580px;max-height:90vh;overflow-y:auto;
+  position:relative;
+}
+.modal::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--red-dark),var(--red),var(--red-dark));
+}
+.modal-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.5rem 1.75rem;
+  border-bottom:1px solid var(--border);
+}
+.modal-head h2{font-family:var(--heading);font-size:2rem;letter-spacing:3px;color:#fff;}
+.modal-x{
+  width:32px;height:32px;background:transparent;
+  border:1px solid var(--border);color:var(--text-dim);
+  font-size:16px;transition:all 0.2s;
+  display:flex;align-items:center;justify-content:center;
+}
+.modal-x:hover{border-color:var(--red);color:var(--red);}
+.modal-body{padding:1.75rem;}
+.fg{margin-bottom:1.25rem;}
+label{
+  display:block;font-family:var(--mono);font-size:10px;
+  letter-spacing:2px;text-transform:uppercase;
+  color:var(--text-dim);margin-bottom:8px;
+}
+input[type=text],input[type=number],select,textarea{
+  width:100%;background:rgba(255,255,255,0.03);
+  border:1px solid var(--border);
+  padding:10px 14px;color:var(--text);
+  font-family:var(--body);font-size:14px;font-weight:500;
+  outline:none;transition:border-color 0.2s;border-radius:0;
+}
+input:focus,select:focus,textarea:focus{border-color:var(--red);box-shadow:0 0 10px rgba(255,30,30,0.1);}
+select option{background:var(--panel);}
+textarea{resize:vertical;min-height:70px;}
+
+.drop-zone{
+  border:2px dashed rgba(255,30,30,0.25);
+  padding:3rem 1.5rem;text-align:center;
+  position:relative;cursor:crosshair;
+  transition:all 0.2s;background:rgba(255,30,30,0.02);
+}
+.drop-zone:hover,.drop-zone.drag{
+  border-color:var(--red);background:rgba(255,30,30,0.05);
+  box-shadow:inset 0 0 30px rgba(255,30,30,0.05);
+}
+.drop-icon{font-size:2.5rem;display:block;margin-bottom:12px;filter:grayscale(0.5);}
+.drop-zone p{font-family:var(--body);font-size:14px;font-weight:500;color:var(--text-dim);}
+.drop-zone span{color:var(--red);}
+.drop-zone input[type=file]{
+  position:absolute;inset:0;opacity:0;width:100%;height:100%;
+  border:none;padding:0;background:transparent;
+}
+.prev-wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px;}
+.prev-item{
+  aspect-ratio:1;position:relative;overflow:hidden;
+  background:var(--panel2);border:1px solid var(--border);
+}
+.prev-item img{width:100%;height:100%;object-fit:cover;}
+.prev-rm{
+  position:absolute;top:3px;right:3px;
+  width:18px;height:18px;background:rgba(5,5,5,0.85);
+  border:none;color:#888;font-size:11px;
+  display:flex;align-items:center;justify-content:center;
+}
+.prev-rm:hover{background:var(--red);color:#fff;}
+
+.modal-foot{
+  display:flex;justify-content:flex-end;gap:10px;
+  margin-top:1.5rem;padding-top:1.25rem;
+  border-top:1px solid var(--border);
+}
+
+/* ─── LIGHTBOX ─── */
+.lbox{
+  position:fixed;inset:0;z-index:700;
+  background:rgba(3,3,3,0.97);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:1rem;
+  opacity:0;pointer-events:none;transition:opacity 0.3s;
+  padding:2rem;
+}
+.lbox.open{opacity:1;pointer-events:all;}
+.lbox img{max-height:72vh;max-width:90vw;object-fit:contain;border:1px solid var(--border);}
+.lbox-x{
+  position:absolute;top:1.5rem;right:1.5rem;
+  width:44px;height:44px;background:transparent;
+  border:1px solid var(--border);color:var(--text-dim);
+  font-size:18px;transition:all 0.2s;
+  display:flex;align-items:center;justify-content:center;
+}
+.lbox-x:hover{border-color:var(--red);color:var(--red);}
+.lbox-info{text-align:center;}
+.lbox-title{font-family:var(--heading);font-size:1.5rem;letter-spacing:3px;color:#fff;}
+.lbox-cat{font-family:var(--mono);font-size:10px;color:var(--red);letter-spacing:2px;margin-top:4px;}
+.lbox-nav{display:flex;gap:1rem;align-items:center;}
+.lbox-btn{
+  width:42px;height:42px;background:transparent;
+  border:1px solid var(--border);color:var(--text-dim);
+  font-size:18px;transition:all 0.2s;
+  display:flex;align-items:center;justify-content:center;
+}
+.lbox-btn:hover{border-color:var(--red);color:var(--red);}
+.lbox-counter{font-family:var(--mono);font-size:11px;color:var(--text-dim);min-width:60px;text-align:center;}
+
+/* ─── TEAM / ROSTER ─── */
+#roster{background:var(--black);}
+.roster-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+  gap:1px;background:var(--border);
+  border:1px solid var(--border);
+  margin-top:2rem;
+}
+.member-card{
+  background:var(--dark);padding:2rem 1.25rem;
+  text-align:center;transition:all 0.3s;
+  position:relative;overflow:hidden;
+}
+.member-card::before{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+  background:var(--red);transform:scaleX(0);transition:transform 0.3s;
+}
+.member-card:hover{background:var(--panel);}
+.member-card:hover::before{transform:scaleX(1);}
+.member-avatar{
+  width:70px;height:70px;
+  background:var(--panel2);
+  clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+  margin:0 auto 12px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--heading);font-size:22px;color:var(--red);
+  border:2px solid var(--border-bright);
+}
+.member-ign{font-family:var(--heading);font-size:1.3rem;letter-spacing:2px;color:#fff;}
+.member-role{font-family:var(--mono);font-size:10px;color:var(--red);letter-spacing:2px;margin-top:4px;}
+.member-game{font-family:var(--body);font-size:12px;color:var(--text-dim);margin-top:6px;}
+
+/* ─── ABOUT ─── */
+#tentang{background:var(--panel);}
+.about-inner{
+  display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;
+}
+.about-deco{
+  position:relative;
+  height:320px;
+  border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+.about-deco::before{
+  content:'LNX';
+  font-family:var(--heading);font-size:12rem;
+  color:rgba(255,30,30,0.04);letter-spacing:10px;
+  position:absolute;
+}
+.about-deco-inner{
+  font-family:var(--heading);font-size:5rem;letter-spacing:6px;
+  color:var(--red);text-align:center;line-height:1;
+  text-shadow:0 0 40px rgba(255,30,30,0.5);
+  position:relative;z-index:1;
+}
+.about-text p{
+  font-size:15px;font-weight:400;line-height:1.8;
+  color:var(--text-dim);margin-bottom:1rem;
+}
+.feature-list{margin-top:1.5rem;display:flex;flex-direction:column;gap:10px;}
+.feat-item{
+  display:flex;align-items:center;gap:12px;
+  font-family:var(--body);font-size:14px;font-weight:600;
+  letter-spacing:1px;color:var(--text);
+}
+.feat-item::before{
+  content:'▶';color:var(--red);font-size:10px;flex-shrink:0;
+}
+
+/* ─── TOAST ─── */
+.toast{
+  position:fixed;bottom:2rem;right:2rem;z-index:800;
+  background:var(--panel);border-left:3px solid var(--red);
+  border:1px solid var(--border-bright);border-left:3px solid var(--red);
+  padding:1rem 1.25rem;
+  font-family:var(--mono);font-size:12px;letter-spacing:1px;color:var(--text);
+  min-width:260px;
+  transform:translateX(120%);transition:transform 0.3s;
+}
+.toast.show{transform:translateX(0);}
+
+/* ─── FOOTER ─── */
+footer{
+  background:#030303;
+  border-top:1px solid var(--border);
+  padding:2rem 3rem;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:1rem;
+}
+.foot-brand{font-family:var(--heading);font-size:1.25rem;letter-spacing:3px;color:var(--text-dim);}
+.foot-brand span{color:var(--red);}
+footer p{font-family:var(--mono);font-size:10px;color:rgba(136,136,136,0.4);letter-spacing:2px;}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:768px){
+  nav{padding:0 1rem;}
+  .nav-links{display:none;}
+  section{padding:3.5rem 1.25rem;}
+  .about-inner{grid-template-columns:1fr;gap:2rem;}
+  .hero-stats{flex-direction:column;gap:0;}
+  .h-stat{border-right:none;border-bottom:1px solid var(--border);}
+  footer{flex-direction:column;text-align:center;padding:1.5rem 1.25rem;}
+  .prev-wrap{grid-template-columns:repeat(3,1fr);}
+}
+
+/* ─── ANIM ─── */
+@keyframes glow-pulse{
+  0%,100%{box-shadow:0 0 10px var(--red-glow);}
+  50%{box-shadow:0 0 25px var(--red-glow),0 0 50px rgba(255,30,30,0.15);}
+}
+.pulse{animation:glow-pulse 3s ease-in-out infinite;}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">
+    <div class="nav-logo-box">LNX</div>
+    <div>
+      <div class="nav-name">TEAM <span>LNX</span></div>
+    </div>
+    <div class="nav-tag">ESPORT</div>
+  </div>
+  <div class="nav-links">
+    <a href="#galeri">GALERI</a>
+    <a href="#roster">ROSTER</a>
+    <a href="#tentang">TENTANG</a>
+    <button class="nav-upload-btn" onclick="openModal()">+ UPLOAD</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">// TEAM LNX ESPORT — EST. 2024</div>
+    <h1 class="hero-title">
+      TEAM
+      <span class="accent">LNX</span>
+    </h1>
+    <p class="hero-sub">We Don't Play — We Dominate</p>
+    <div class="hero-btns">
+      <button class="btn-red" onclick="document.getElementById('galeri').scrollIntoView({behavior:'smooth'})">LIHAT GALERI</button>
+      <button class="btn-outline" onclick="openModal()">UPLOAD FOTO</button>
+    </div>
+    <div class="hero-stats">
+      <div class="h-stat">
+        <div class="h-num" id="stat-photos">0</div>
+        <div class="h-label">FOTO UPLOAD</div>
+      </div>
+      <div class="h-stat">
+        <div class="h-num">5</div>
+        <div class="h-label">MEMBER AKTIF</div>
+      </div>
+      <div class="h-stat">
+        <div class="h-num">LNX</div>
+        <div class="h-label">TEAM TAG</div>
+      </div>
+      <div class="h-stat">
+        <div class="h-num">∞</div>
+        <div class="h-label">SEMANGAT</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="galeri">
+  <div class="gal-header">
+    <div>
+      <p class="sec-label">// PHOTO GALLERY</p>
+      <h2 class="sec-title">GALERI TIM</h2>
+      <div class="sec-line"></div>
+    </div>
+    <div>
+      <div class="filter-row" id="filter-row">
+        <button class="ftag active" data-f="semua">SEMUA</button>
+        <button class="ftag" data-f="gameplay">GAMEPLAY</button>
+        <button class="ftag" data-f="tournament">TOURNAMENT</button>
+        <button class="ftag" data-f="behind">BEHIND THE SCENE</button>
+        <button class="ftag" data-f="lain">LAINNYA</button>
+      </div>
+    </div>
+  </div>
+  <div class="photo-grid" id="photo-grid">
+    <div class="no-photos">
+      <p>BELUM ADA FOTO</p>
+      <small>// UPLOAD FOTO PERTAMA KALIAN</small>
+    </div>
+  </div>
+</section>
+
+<!-- ROSTER -->
+<section id="roster">
+  <p class="sec-label">// THE SQUAD</p>
+  <h2 class="sec-title">ROSTER</h2>
+  <div class="sec-line"></div>
+  <div class="roster-grid">
+    <div class="member-card">
+      <div class="member-avatar">L</div>
+      <p class="member-ign">LNX_CAPTAIN</p>
+      <p class="member-role">CAPTAIN / IGL</p>
+      <p class="member-game">Mobile Legends</p>
+    </div>
+    <div class="member-card">
+      <div class="member-avatar">N</div>
+      <p class="member-ign">LNX_SNIPER</p>
+      <p class="member-role">CARRY</p>
+      <p class="member-game">Mobile Legends</p>
+    </div>
+    <div class="member-card">
+      <div class="member-avatar">X</div>
+      <p class="member-ign">LNX_TANK</p>
+      <p class="member-role">ROAMER</p>
+      <p class="member-game">Mobile Legends</p>
+    </div>
+    <div class="member-card">
+      <div class="member-avatar">R</div>
+      <p class="member-ign">LNX_MID</p>
+      <p class="member-role">MID LANER</p>
+      <p class="member-game">Mobile Legends</p>
+    </div>
+    <div class="member-card">
+      <div class="member-avatar">5</div>
+      <p class="member-ign">LNX_EXP</p>
+      <p class="member-role">EXP LANER</p>
+      <p class="member-game">Mobile Legends</p>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="tentang">
+  <div class="about-inner">
+    <div class="about-deco pulse">
+      <div class="about-deco-inner">
+        TEAM<br>LNX
+      </div>
+    </div>
+    <div class="about-text">
+      <p class="sec-label">// ABOUT US</p>
+      <h2 class="sec-title" style="font-size:3rem;">TENTANG<br>KAMI</h2>
+      <div class="sec-line"></div>
+      <p>TEAM LNX ESPORT adalah tim kompetitif yang lahir dari passion murni terhadap dunia gaming. Kami bermain bukan hanya untuk menang, tapi untuk membuktikan bahwa dengan kerja keras dan strategi, semua bisa dicapai.</p>
+      <p>Setiap pertandingan adalah pelajaran. Setiap kekalahan adalah bahan bakar. Kami bangkit lebih kuat.</p>
+      <div class="feature-list">
+        <div class="feat-item">Kompetitif di berbagai turnamen lokal</div>
+        <div class="feat-item">Satu tim, satu tujuan — JUARA</div>
+        <div class="feat-item">Komunitas yang solid dan suportif</div>
+        <div class="feat-item">Terus berkembang, tidak pernah berhenti</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-brand">TEAM <span>LNX</span> ESPORT</div>
+  <p>© 2025 TEAM LNX ESPORT — ALL RIGHTS RESERVED</p>
+</footer>
+
+<!-- UPLOAD MODAL -->
+<div class="overlay" id="modal-overlay">
+  <div class="modal">
+    <div class="modal-head">
+      <h2>UPLOAD FOTO</h2>
+      <button class="modal-x" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="fg">
+        <label>Judul Foto</label>
+        <input type="text" id="p-title" placeholder="Cth: Scrim vs Alpha Team">
+      </div>
+      <div class="fg">
+        <label>Kategori</label>
+        <select id="p-cat">
+          <option value="gameplay">Gameplay</option>
+          <option value="tournament">Tournament</option>
+          <option value="behind">Behind The Scene</option>
+          <option value="lain">Lainnya</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label>Keterangan (opsional)</label>
+        <textarea id="p-desc" placeholder="Cerita singkat tentang foto ini..."></textarea>
+      </div>
+      <div class="fg">
+        <label>Upload Foto (bisa banyak sekaligus)</label>
+        <div class="drop-zone" id="drop-zone">
+          <span class="drop-icon">🎮</span>
+          <p>Klik atau <span>drop foto</span> di sini<br><small style="font-size:11px;color:rgba(136,136,136,0.5);">JPG · PNG · WEBP</small></p>
+          <input type="file" accept="image/*" multiple id="img-input" onchange="handleFiles(this.files)">
+        </div>
+        <div class="prev-wrap" id="prev-wrap"></div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn-outline" style="font-size:16px;padding:10px 24px;" onclick="closeModal()">BATAL</button>
+        <button class="btn-red" style="font-size:16px;padding:10px 24px;" onclick="submitPhotos()">UPLOAD</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lbox" id="lbox">
+  <button class="lbox-x" onclick="closeLB()">✕</button>
+  <img id="lb-img" src="" alt="">
+  <div class="lbox-info">
+    <p class="lbox-title" id="lb-title"></p>
+    <p class="lbox-cat" id="lb-cat"></p>
+  </div>
+  <div class="lbox-nav">
+    <button class="lbox-btn" onclick="lbMove(-1)">‹</button>
+    <span class="lbox-counter" id="lb-cnt"></span>
+    <button class="lbox-btn" onclick="lbMove(1)">›</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+let photos = JSON.parse(localStorage.getItem('lnx_photos') || '[]');
+let staged = [];      // images staged for upload
+let activeFilter = 'semua';
+let lbPhotos = [];
+let lbIdx = 0;
+
+// ─── MODAL
+function openModal(){
+  document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){
+  document.getElementById('modal-overlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.getElementById('modal-overlay').addEventListener('click',e=>{
+  if(e.target===document.getElementById('modal-overlay'))closeModal();
+});
+
+// ─── DRAG DROP
+const dz=document.getElementById('drop-zone');
+dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('drag');});
+dz.addEventListener('dragleave',()=>dz.classList.remove('drag'));
+dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('drag');handleFiles(e.dataTransfer.files);});
+
+function handleFiles(files){
+  Array.from(files).forEach(f=>{
+    if(!f.type.startsWith('image/'))return;
+    const r=new FileReader();
+    r.onload=e=>{staged.push(e.target.result);renderPrev();};
+    r.readAsDataURL(f);
+  });
+}
+function renderPrev(){
+  document.getElementById('prev-wrap').innerHTML=staged.map((s,i)=>`
+    <div class="prev-item">
+      <img src="${s}" alt="">
+      <button class="prev-rm" onclick="rmStaged(${i})">✕</button>
+    </div>`).join('');
+}
+function rmStaged(i){staged.splice(i,1);renderPrev();}
+
+// ─── SUBMIT
+function submitPhotos(){
+  if(!staged.length){showToast('PILIH MINIMAL 1 FOTO!',false);return;}
+  const title=document.getElementById('p-title').value.trim()||'LNX MOMENT';
+  const cat=document.getElementById('p-cat').value;
+  const desc=document.getElementById('p-desc').value.trim();
+  staged.forEach(src=>{
+    photos.unshift({id:Date.now()+Math.random(),src,title,cat,desc});
+  });
+  localStorage.setItem('lnx_photos',JSON.stringify(photos));
+  showToast(`${staged.length} FOTO BERHASIL DIUPLOAD!`);
+  resetModal();
+  closeModal();
+  updateStats();
+  renderGallery();
+}
+function resetModal(){
+  document.getElementById('p-title').value='';
+  document.getElementById('p-desc').value='';
+  document.getElementById('p-cat').value='gameplay';
+  document.getElementById('img-input').value='';
+  staged=[];renderPrev();
+}
+
+// ─── GALLERY
+function renderGallery(){
+  const grid=document.getElementById('photo-grid');
+  const list=activeFilter==='semua'?photos:photos.filter(p=>p.cat===activeFilter);
+  if(!list.length){
+    grid.innerHTML=`<div class="no-photos"><p>BELUM ADA FOTO</p><small>// UPLOAD FOTO PERTAMA KALIAN</small></div>`;
+    return;
+  }
+  lbPhotos=list;
+  grid.innerHTML=list.map((p,i)=>`
+    <div class="photo-card" onclick="openLB(${i})">
+      <img src="${p.src}" alt="${p.title}" loading="lazy">
+      <button class="photo-del" onclick="delPhoto(event,'${p.id}')">🗑</button>
+      <div class="photo-overlay">
+        <p class="photo-title">${p.title}</p>
+        <p class="photo-cat">// ${p.cat.toUpperCase()}</p>
+      </div>
+    </div>`).join('');
+}
+function delPhoto(e,id){
+  e.stopPropagation();
+  if(!confirm('Hapus foto ini?'))return;
+  photos=photos.filter(p=>String(p.id)!==String(id));
+  localStorage.setItem('lnx_photos',JSON.stringify(photos));
+  updateStats();renderGallery();
+  showToast('FOTO DIHAPUS.');
+}
+
+// ─── FILTER
+document.getElementById('filter-row').addEventListener('click',e=>{
+  if(!e.target.dataset.f)return;
+  document.querySelectorAll('.ftag').forEach(b=>b.classList.remove('active'));
+  e.target.classList.add('active');
+  activeFilter=e.target.dataset.f;
+  renderGallery();
+});
+
+// ─── LIGHTBOX
+function openLB(i){
+  lbIdx=i;updateLB();
+  document.getElementById('lbox').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeLB(){
+  document.getElementById('lbox').classList.remove('open');
+  document.body.style.overflow='';
+}
+function updateLB(){
+  const p=lbPhotos[lbIdx];
+  document.getElementById('lb-img').src=p.src;
+  document.getElementById('lb-title').textContent=p.title;
+  document.getElementById('lb-cat').textContent='// '+p.cat.toUpperCase();
+  document.getElementById('lb-cnt').textContent=`${lbIdx+1} / ${lbPhotos.length}`;
+}
+function lbMove(d){
+  lbIdx=(lbIdx+d+lbPhotos.length)%lbPhotos.length;
+  updateLB();
+}
+document.getElementById('lbox').addEventListener('click',e=>{
+  if(e.target===document.getElementById('lbox'))closeLB();
+});
+
+// ─── KEYS
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){closeLB();closeModal();}
+  if(e.key==='ArrowRight')lbMove(1);
+  if(e.key==='ArrowLeft')lbMove(-1);
+});
+
+// ─── TOAST
+function showToast(msg,ok=true){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.style.borderLeftColor=ok?'var(--red)':'#888';
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+// ─── STATS
+function updateStats(){
+  document.getElementById('stat-photos').textContent=photos.length;
+}
+
+// INIT
+updateStats();
+renderGallery();
+</script>
+</body>
+</html>
